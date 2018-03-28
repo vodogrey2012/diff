@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1522275667 source:/home/yauheni/programs/codeblocks/diff1.0/main.cpp
+	<iostream>
+	<stdio.h>
+	<cstring>
+	<assert.h>
+	<cstdlib>
+	<node.h>
+
+1522273357 /home/yauheni/programs/codeblocks/diff1.0/include/node.h
+
+1522275954 source:/home/yauheni/programs/codeblocks/diff1.0/src/node.cpp
+	"node.h"
+	<stdio.h>
+	<cstring>
+	<cstdlib>
+	<assert.h>
+	<cstdio>
+	<cmath>
+	<unistd.h>
+

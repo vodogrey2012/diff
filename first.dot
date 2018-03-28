@@ -1,0 +1,3 @@
+digraph mi{
+node0x14740a0 [shape = "record" , label = "{pointer = 0x14740a0 |is_number = 1 | data = 0 | left = (nil) | right = (nil)}"];
+}
