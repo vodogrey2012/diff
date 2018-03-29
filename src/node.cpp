@@ -9,6 +9,7 @@
 
 #define SHOWSTEP 0
 
+
 /**
 realeased:
 alg : +, -, *, /, ^     , sin, cos , tg , ctg , sh , ch , th , cth , arcsin , arccos , arctg , arcctg , exp , ln , log , sqrt , abs;
@@ -523,8 +524,33 @@ void node :: diff_tree()
         }
         else
         {
-            printf("Invalid differentiation: f(x)^f(x)");
-            exit(0);
+            node* savel1 = (*left).copy_tree();
+            node* savel2 = (*left).copy_tree();
+            node* savel3 = (*left).copy_tree();
+            node* savel4 = (*left).copy_tree();
+            node* saver1 = (*right).copy_tree();
+            node* saver2 = (*right).copy_tree();
+            node* saver3 = (*right).copy_tree();
+            (*left).kill_tree();
+            (*right).kill_tree();
+
+            change_data("*");
+            left = new node("^");
+            left->left = savel1;
+            left->right = saver1;
+            right = new node("+");
+            right->left = new node("*");
+            right->left->left = savel2; // diff
+            right->left->right = new node("/");
+            right->left->right->left = saver2;
+            right->left->right->right = savel3;
+            right->right = new node("*");
+            right->right->left = new node("ln");
+            right->right->left->left = savel4;
+            right->right->right = saver3; //diff
+            (*(right->right->right)).diff_tree();
+            (*(right->left->left)).diff_tree();
+
         }
     }
 
@@ -858,6 +884,11 @@ int node :: opti()
                 left = left->left;
                 return 1;
             }
+            else if((!strcmp(right->data , "-1")))
+            {
+                change_data("+");
+                (*right).change_data("1");
+            }
         }
         if(!strcmp(data , "^"))
         {
@@ -887,7 +918,7 @@ int node :: opti()
         }
         else if(!strcmp(data , "*"))
         {
-            if(!strcmp(left->data , "0") || !strcmp(right->data , "0"))
+            if(!strcmp(left->data , "0") || !strcmp(right->data , "0") || !strcmp(left->data , "-0") || !strcmp(right->data , "-0"))
             {
                 (*left).kill_tree();
                 (*right).kill_tree();
@@ -912,6 +943,18 @@ int node :: opti()
                 left = left->left;
                 return 1;
 
+            }
+        }
+        else if((!strcmp(data , "/")))
+        {
+            if(!strcmp(left->data , "0")  || !strcmp(left->data , "-0"))
+            {
+                (*left).kill_tree();
+                (*right).kill_tree();
+                left = NULL;
+                right = NULL;
+                change_data("0");
+                return 1;
             }
         }
     }
@@ -958,9 +1001,9 @@ void* node :: print_latex()
     fprintf(file ,  "\\documentclass[12pt]{article}\n"
                     "\\usepackage[english]{babel}\n"
                     "\\begin {document}\n"
-                    "$$ f'(x) = ");
+                    "$ f'(x) = ");
     print_file_latex(file);
-    fprintf(file ,  " $$\n"
+    fprintf(file ,  " $\n"
                     "\\end{document}\n");
     fclose(file);
     system(compile_latex);
@@ -980,6 +1023,7 @@ void node :: make_brackets()
     // 7 - sqrt{}
     // 8 - (sqrt{})
     // 9 - abs()
+    // 10 - {(func)}
 
     if(!strcmp(data , "sqrt"))
     {
@@ -1029,6 +1073,13 @@ void node :: make_brackets()
         if(is_number != 2)
                 is_number = 0;
     }
+    else if(!strcmp(data , "-1"))
+    {
+        if(is_number == 2)
+                is_number = 10;
+        else
+            is_number = 1;
+    }
     else if((strcmp(data , "+")) && (!right) && (left))
     {
         if(is_number == 2)
@@ -1065,6 +1116,7 @@ void node :: print_file_latex(void* file)
     // 7 - sqrt{}
     // 8 - (sqrt{})
     // 9 - abs()
+    // 10 - {(func)}
 
     switch(is_number)
     {
@@ -1165,6 +1217,11 @@ void node :: print_file_latex(void* file)
             break;
         }
     case 9:
+        {
+            fprintf((FILE*)file , "{(-1)}" , data);
+            break;
+        }
+    case 10:
         {
             fprintf((FILE*)file , "|" , data);
             (*left).print_file_latex(file);

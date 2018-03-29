@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1522275667 source:/home/yauheni/programs/codeblocks/diff1.0/main.cpp
+1522340840 source:/home/yauheni/programs/codeblocks/diff1.0/main.cpp
 	<iostream>
 	<stdio.h>
 	<cstring>
@@ -9,7 +9,7 @@
 
 1522273357 /home/yauheni/programs/codeblocks/diff1.0/include/node.h
 
-1522275954 source:/home/yauheni/programs/codeblocks/diff1.0/src/node.cpp
+1522340903 source:/home/yauheni/programs/codeblocks/diff1.0/src/node.cpp
 	"node.h"
 	<stdio.h>
 	<cstring>

@@ -7,6 +7,10 @@
 
 #define DOALGEBRA false
 
+///+(ctg(3))(/(^(x)(+(sin(x))(ln(-(^(x)(2))(4))))(cos(+(^(sin(1))(2))(*(x)(4))))))
+
+///+(ctg(3))(/(^(x)(+(sin(x))(ln(-(^(x)(2))(4)))))(cos(+(^(sin(1))(2))(*(x)(4)))))
+
 
 using namespace std;
 
@@ -54,8 +58,9 @@ int main()
 
 node* scan_message()
 {
-    char* text;
-    scanf("%m[^\n]" , &text);
+    char* text = (char*)calloc(100 , sizeof(char));
+    sprintf(text , "+(ctg(3))(/(^(x)(+(sin(x))(ln(-(^(x)(2))(4)))))(cos(+(^(sin(1))(2))(*(x)(4)))))");
+    //scanf("%m[^\n]" , &text);
     node* base = new node();
     (*base).add_node(&text , text + strlen(text));
     return base;
